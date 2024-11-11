@@ -1,0 +1,425 @@
+/* Reset e estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    background-color:#f8f8f8;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #054A1B;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+nav a.nav-link, .nav-link {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 15px;
+    font-size: 1.1em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+nav a.nav-link:hover, .nav-link:hover, .nav-link.active {
+    background-color: #0A6C32;
+}
+
+.logout {
+    color: #FF4D4D;
+    text-decoration: none;
+    padding: 15px;
+    text-align: center;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.logout:hover {
+    background-color: #ff9999;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header h2 {
+    color: #2F8042;
+    font-size: 1.5em;
+}
+
+.user-info {
+    display: flex; /* Alinha a foto e o texto horizontalmente */
+    align-items: center; /* Alinha verticalmente os itens no centro */
+    color: #555;
+    padding: 10px;
+}
+
+.user-info p {
+    font-weight: bold;
+    color: #333;
+    text-align: right;
+    margin: 0; /* Remove a margem para que o texto fique mais próximo da foto */
+}
+
+/* Foto de perfil */
+.user-info .user-icon {
+    width: 40px; /* Define o tamanho do contêiner da foto */
+    height: 40px; /* Define o tamanho do contêiner da foto */
+    border-radius: 50%; /* Torna a foto redonda */
+    margin-left: 10px; /* Espaço entre o texto e a foto */
+    overflow: hidden; /* Garante que a imagem não ultrapasse os limites do contêiner */
+}
+
+.user-info .user-icon img {
+    width: 100%; /* A imagem ocupará 100% do tamanho do contêiner */
+    height: 100%; /* A imagem ocupará 100% do tamanho do contêiner */
+    object-fit: cover; /* Faz com que a imagem cubra o espaço do contêiner sem distorcer */
+}
+
+.user-info .user-text {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px; /
+}
+.overview h3 {
+    font-size: 1.2em;
+    color: #333;
+}
+
+.overview-subtitle {
+    color: #777;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+.cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    flex: 1;
+    min-width: 150px;
+    background-color: #EAEAEA;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    color: #2F8042;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card .icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 1em;
+    margin: 5px 0;
+    color: #555;
+}
+
+.card .count {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* Dropdown Menu */
+.dropdown {
+    margin-left: 15px;
+    padding-left: 10px;
+    border-left: 2px solid #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dropdown-item {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.dropdown-item .dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.dropdown-item.active .dot {
+    background-color: orange;
+}
+
+.dropdown-item:hover .dot {
+    background-color: #ffcc00;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Estilos para a página de Componentes */
+#componentes header {
+    margin-bottom: 20px;
+    color: #2F8042;
+}
+
+#componentes header h2 {
+    font-size: 1.5em;
+    color: #2F8042;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#componentes header h2 span {
+    color: #999;
+    font-size: 0.8em;
+}
+
+.search-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 200px;
+}
+
+.filter-btn, .new-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.filter-btn {
+    background-color: #e0f7e9;
+    color: #2F8042;
+}
+
+.new-btn {
+    background-color: #2F8042;
+    color: #fff;
+}
+
+.components-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.components-table th, .components-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.components-table th {
+    color: #555;
+}
+
+.components-table td {
+    color: #333;
+}
+
+.edit-btn, .delete-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.edit-btn {
+    color: #2F8042;
+}
+
+.delete-btn {
+    color: #FF4D4D;
+}
+
+/* Estilos para o menu de filtro */
+.filter-dropdown {
+    position: relative;
+}
+
+.filter-menu {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 150px;
+}
+
+.filter-menu label {
+    font-size: 0.9em;
+    color: #333;
+    cursor: pointer;
+}
+
+.filter-menu input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Página oculta por padrão */
+.page {
+    display: none;
+}
+
+/* Página que não está oculta, fica visível */
+.page:not(.hidden) {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+.profile-header {
+    background-color: #fff;
+    color: #2F8042;
+    padding: 12px 50px;
+    text-align: left;
+    margin: 0; /* Remove margens superior e inferior */
+    position: fixed; /* Fixando no topo */
+    top: 0; /* Gruda no topo da página */
+    left: 250px; /* Alinha à esquerda */
+    right: 0; /* Alinha à direita */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000; 
+}
+
+
+.profile-header h2 {
+    font-size: 1.5em;
+}
+
+/* Informações do perfil */
+.profile-container {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 80px;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-picture {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.edit-picture-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+}
+.profile-fields {
+    flex-grow: 1;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label, 
+.input-group input, 
+.input-group select, 
+.input-group textarea {
+    color: #2F8042;
+    font-weight: normal; /* Remove o negrito */
+}
+
+.input-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.save-btn {
+    background-color: #2F8042;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-btn:hover {
+    background-color: #2F8042;
+}
