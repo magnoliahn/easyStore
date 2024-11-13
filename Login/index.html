@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Login Page</title>
+  </head>
+  <body>
+    <div class="login-container">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label for="username" class="visually-hidden">Email</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Email"
+          required
+        />
+
+        <label for="password" class="visually-hidden">Senha</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="*******"
+          required
+        />
+
+        <button type="submit" id="loginButton">Login</button>
+        
+      </form>
+      <a href="../register/index.html" class="register-link">Registrar-se</a>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

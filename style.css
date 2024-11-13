@@ -1,9 +1,9 @@
-/* Reset e estilos base */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: "Roboto", sans-serif;
+    list-style: none;
 }
 
 body {
@@ -74,8 +74,8 @@ header h2 {
 }
 
 .user-info {
-    display: flex; /* Alinha a foto e o texto horizontalmente */
-    align-items: center; /* Alinha verticalmente os itens no centro */
+    display: flex;
+    align-items: center;
     color: #555;
     padding: 10px;
 }
@@ -84,22 +84,22 @@ header h2 {
     font-weight: bold;
     color: #333;
     text-align: right;
-    margin: 0; /* Remove a margem para que o texto fique mais próximo da foto */
+    margin: 0;
 }
 
-/* Foto de perfil */
+
 .user-info .user-icon {
-    width: 40px; /* Define o tamanho do contêiner da foto */
-    height: 40px; /* Define o tamanho do contêiner da foto */
-    border-radius: 50%; /* Torna a foto redonda */
-    margin-left: 10px; /* Espaço entre o texto e a foto */
-    overflow: hidden; /* Garante que a imagem não ultrapasse os limites do contêiner */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+    overflow: hidden;
 }
 
 .user-info .user-icon img {
-    width: 100%; /* A imagem ocupará 100% do tamanho do contêiner */
-    height: 100%; /* A imagem ocupará 100% do tamanho do contêiner */
-    object-fit: cover; /* Faz com que a imagem cubra o espaço do contêiner sem distorcer */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .user-info .user-text {
@@ -133,6 +133,12 @@ header h2 {
     text-align: center;
     color: #2F8042;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover{
+    background-color: #D3D3D3;
+    transition: background 0.3s;
+    cursor: pointer;
 }
 
 .card .icon {
@@ -191,7 +197,6 @@ header h2 {
     display: none;
 }
 
-/* Estilos para a página de Componentes */
 #componentes header {
     margin-bottom: 20px;
     color: #2F8042;
@@ -213,6 +218,7 @@ header h2 {
 .search-filter {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -276,7 +282,6 @@ header h2 {
     color: #FF4D4D;
 }
 
-/* Estilos para o menu de filtro */
 .filter-dropdown {
     position: relative;
 }
@@ -306,12 +311,10 @@ header h2 {
     margin-right: 8px;
 }
 
-/* Página oculta por padrão */
 .page {
     display: none;
 }
 
-/* Página que não está oculta, fica visível */
 .page:not(.hidden) {
     display: block;
 }
@@ -325,11 +328,11 @@ header h2 {
     color: #2F8042;
     padding: 12px 50px;
     text-align: left;
-    margin: 0; /* Remove margens superior e inferior */
-    position: fixed; /* Fixando no topo */
-    top: 0; /* Gruda no topo da página */
-    left: 250px; /* Alinha à esquerda */
-    right: 0; /* Alinha à direita */
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 250px;
+    right: 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000; 
 }
@@ -339,7 +342,6 @@ header h2 {
     font-size: 1.5em;
 }
 
-/* Informações do perfil */
 .profile-container {
     padding: 20px;
     background-color: #fff;
@@ -394,7 +396,7 @@ header h2 {
 .input-group select, 
 .input-group textarea {
     color: #2F8042;
-    font-weight: normal; /* Remove o negrito */
+    font-weight: normal;
 }
 
 .input-group label {
@@ -421,5 +423,179 @@ header h2 {
 }
 
 .save-btn:hover {
+    background-color: #276836;
+}
+
+
+.overview-title{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}
+#delete-catergory{
+    background-color: #df1818;
+}
+#delete-catergory:hover{
+    background-color: #a82323;
+}
+
+.overview-title button {
     background-color: #2F8042;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.overview-title button:hover {
+    background-color: #276836;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    min-width: 200px;
+    padding: 15px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s;
+    font-size: 0.9em;
+    text-align: center;
+}
+  
+.toast.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.tab-menu {
+    display: flex;
+    justify-content: center;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: #2F8042;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.tab-button.active {
+    color: #054A1B;
+    border-bottom: 2px solid #054A1B;
+}
+
+.tab-button:hover {
+    color: #0A6C32;
+}
+
+.profile-tab {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profile-form label,
+.security-form label {
+    color: #333;
+    font-weight: bold;
+}
+
+.profile-form input,
+.security-form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 1em;
+}
+
+.profile-form{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}
+.profile-form inputs {
+    display: flex;
+    flex-direction: column;
+}
+.profile-form .user-icon {
+    width: 180px;
+    height: 85px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile-form .user-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.security-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}
+.security-form inputs {
+    display: flex;
+    flex-direction: column;
+}
+.security-form .user-icon {
+    width: 140px;
+    height: 85px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.security-form .user-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-form .user-text {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px; /
+}
+
+.save-btn {
+    padding: 10px;
+    border: none;
+    background-color: #2F8042;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+}
+
+.save-btn:hover {
+    background-color: #0A6C32;
 }
