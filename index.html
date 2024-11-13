@@ -1,163 +1,147 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>N3 - Controle de Estoque</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="modalStyle.css" />
+  </head>
+  <body>
     <div class="container">
-        <!-- Barra Lateral -->
-        <aside class="sidebar">
-            <nav>
-                <a href="#" class="nav-link" onclick="showPage('dashboard')">Início</a>
-                <div class="nav-link" onclick="toggleDropdown()">
-                    Estoque
-                </div>
-                <div id="dropdown-menu" class="dropdown hidden">
-                    <a href="#" onclick="showSubPage('componentes')" class="dropdown-item"><span class="dot"></span>Componentes</a>
-                    <a href="#" onclick="showSubPage('computador')" class="dropdown-item"><span class="dot"></span>Computador</a>
-                    <a href="#" onclick="showSubPage('notebook')" class="dropdown-item"><span class="dot"></span>Notebook</a>
-                    <a href="#" onclick="showSubPage('materiais')" class="dropdown-item"><span class="dot"></span>Materiais</a>
-                    <a href="#" onclick="showSubPage('cabos')" class="dropdown-item"><span class="dot"></span>Cabos</a>
-                </div>
-            </nav>
-            <a href="#" class="logout" onclick="logout()">Sair</a>
-        </aside>
+      <aside class="sidebar">
+        <nav>
+          <a href="#" class="nav-link" onclick="showPage('dashboard')"
+            >Início</a
+          >
+          <div class="nav-link" onclick="toggleDropdown()">Estoque</div>
+          <div id="dropdown-menu" class="dropdown hidden"></div>
+        </nav>
+        <a href="#" id="logout-btn" class="logout">Sair</a>
+      </aside>
 
-        <!-- Conteúdo Principal -->
-        <main class="main-content">
-            <!-- Página de Dashboard -->
-            <section id="dashboard" class="page">
-                <header>
-                    <h2>Dashboard</h2>
-                    <div class="user-info" id="user-info" onclick="showPage('perfil')">
-                        <div class="user-text">
-                            <p>Julião Silva</p>
-                            <span>juliasilvaaa@123.com</span>
-                        </div>
-                        <div class="user-icon">
-                            <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Foto de perfil">
-                        </div>
-                    </div>                    
-                </header>                              
-                <section class="overview">
-                    <h3>Bem-Vindo, Julião</h3>
-                    <p class="overview-subtitle">Overview</p>
-                    <div class="cards">
-                        <div class="card">
-                            <div class="icon">📦</div>
-                            <p>Componentes</p>
-                            <span class="count">10</span>
-                        </div>
-                        <div class="card">
-                            <div class="icon">💻</div>
-                            <p>Computador</p>
-                            <span class="count">15</span>
-                        </div>
-                        <div class="card">
-                            <div class="icon">📱</div>
-                            <p>Notebook</p>
-                            <span class="count">8</span>
-                        </div>
-                        <div class="card">
-                            <div class="icon">🔧</div>
-                            <p>Materiais</p>
-                            <span class="count">7</span>
-                        </div>
-                        <div class="card">
-                            <div class="icon">🔌</div>
-                            <p>Cabos</p>
-                            <span class="count">9</span>
-                        </div>
-                    </div>
-                </section>
-            </section>
+      <main class="main-content">
+        <section id="dashboard" class="page">
+          <header>
+            <h2>Dashboard</h2>
+            <div class="user-info" id="user-info" onclick="showPage('perfil')">
+              <div class="user-text">
+                <p></p>
+                <span></span>
+              </div>
+              <div class="user-icon">
+                <img
+                  src="https://www.w3schools.com/w3images/avatar2.png"
+                  alt="Foto de perfil"
+                />
+              </div>
+            </div>
+          </header>
+          <section class="overview">
+            <div class="overview-title">
+              <div class="title">
+                <h3></h3>
+                <p class="overview-subtitle">Overview</p>
+              </div>
+              <div>
+                <button onclick="openCreateCategoryModal()">+ Categorias</button>
+                <button id="delete-catergory" onclick="openDeleteCategoryModal()">- Categorias</button>
+              </div>
+            </div>
+            <ul class="cards"></ul>
+          </section>
+        </section>
 
-            <!-- Página de Perfil -->
-            <section id="perfil" class="page hidden">
-                <div class="profile-header">
-                    <h2>Perfil</h2>
-                </div>
-                <div class="profile-container">
-                    <div class="profile-info">
-                        <div class="profile-picture">
-                            <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Foto de perfil">
-                            <button class="edit-picture-btn">✏️</button>
-                        </div>
-                        <div class="profile-fields">
-                            <div class="input-group">
-                                <label for="nome">Nome</label>
-                                <input type="text" id="nome" value="Julião Silva">
-                            </div>
-                            <div class="input-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" value="juliasilvaaa@123.com">
-                            </div>
-                            <div class="input-group">
-                                <label for="senha">Senha</label>
-                                <input type="password" id="senha" value="********">
-                            </div>
-                            <button class="save-btn">Salvar</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section id="componentes" class="page hidden">
-                <header>
-                    <h2>Componentes <span>/ Estoque</span></h2>
-                </header>
-                <div class="search-filter">
-                    <input type="text" placeholder="Pesquisar" class="search-input">
-                    <div class="filter-dropdown">
-                        <button class="filter-btn" onclick="toggleFilterDropdown()">Filtrar ▾</button>
-                        <div id="filter-menu" class="filter-menu hidden">
-                            <label><input type="checkbox" value="Lab Línguas"> Lab Línguas</label>
-                            <label><input type="checkbox" value="Lab Informática"> Lab Informática</label>
-                            <label><input type="checkbox" value="Lab Hardware"> Lab Hardware</label>
-                        </div>
-                    </div>
-                    <button class="new-btn">Novo +</button>
-                </div>
-                <table class="components-table">
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Componente</th>
-                            <th>Estoque</th>
-                            <th>Editar</th>
-                            <th>Deletar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#1234GFH</td>
-                            <td>Placa-mãe</td>
-                            <td>1242</td>
-                            <td><button class="edit-btn">✏️</button></td>
-                            <td><button class="delete-btn">🗑️</button></td>
-                        </tr>
-                        <tr>
-                            <td>#544GFH2</td>
-                            <td>Memória RAM</td>
-                            <td>1242</td>
-                            <td><button class="edit-btn">✏️</button></td>
-                            <td><button class="delete-btn">🗑️</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-            
+        <section id="perfil" class="page hidden">
+          <header>
+            <h2>Perfil</h2>
+          </header>
 
-            <!-- Outras páginas do menu Estoque -->
-            <section id="computador" class="page hidden"></section>
-            <section id="notebook" class="page hidden"></section>
-            <section id="materiais" class="page hidden"></section>
-            <section id="cabos" class="page hidden"></section>
-        </main>
+          <div class="tab-menu">
+            <button
+              id="tab-perfil"
+              class="tab-button active"
+              onclick="showProfileTab('perfil-info')"
+            >
+              Perfil
+            </button>
+            <button
+              id="tab-seguranca"
+              class="tab-button"
+              onclick="showProfileTab('perfil-seguranca')"
+            >
+              Segurança
+            </button>
+          </div>
+          <div id="perfil-info" class="profile-tab">
+            <div class="profile-form">
+              <div class="user-icon">
+                <img
+                  src="https://www.w3schools.com/w3images/avatar2.png"
+                  alt="Foto de perfil"
+                />
+              </div>
+              <div class="inputs">
+                <label>Nome</label>
+                <input id="nome" type="text" />
+                <label>Email</label>
+                <input id="email" type="email" />
+                <label>Cargo</label>
+                <input id="cargo" type="text" disabled/>
+                <button class="save-btn" onclick="saveProfile()">Salvar</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="perfil-seguranca" class="profile-tab hidden">
+            <div class="security-form">
+              <div class="user-icon">
+                <img
+                  src="https://www.w3schools.com/w3images/avatar2.png"
+                  alt="Foto de perfil"
+                />
+              </div>
+              <div>
+                <label>Sua senha</label>
+                <input id="new-password" type="password" placeholder="Digite nova senha" />
+                <label>Nova senha</label>
+                <input id="confirm-new-password" type="password" placeholder="Confirme a nova senha" />
+                <button class="save-btn" onclick="saveSecurity()">Salvar</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="pageTable" class="page hidden">
+          <header>
+            <h2></h2>
+          </header>
+          <div class="search-filter">
+            <input type="text" placeholder="Pesquisar" class="search-input" />
+            <button class="new-btn">Novo +</button>
+          </div>
+          <table class="components-table">
+            <thead>
+              <tr></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </section>
+
+        <div id="modalContainer"></div>
+        <div id="toast" class="toast"></div>
+      </main>
     </div>
 
-    <script src="script.js"></script>
-</body>
+    <script src="script.js" type="module"></script>
+  </body>
 </html>

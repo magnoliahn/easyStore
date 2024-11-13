@@ -1,3 +1,4 @@
+// script.js
 function showPage(pageId) {
   const pages = document.querySelectorAll(".page");
   pages.forEach((page) => page.classList.add("hidden"));
@@ -8,10 +9,6 @@ function showPage(pageId) {
   if (pageId === "dashboard") {
     history.pushState(null, "", `?page=${pageId}`);
     fetchCategories();
-    toggleDropdown();
-  } else if (pageId === "perfil") {
-    history.pushState(null, "", `?page=${pageId}`);
-    loadUserProfile();
   }
 }
 
@@ -34,6 +31,10 @@ function showSubPage(pageId) {
   const activeItem = document.querySelector(`.dropdown-item[id="${pageId}"]`);
   if (activeItem) {
     activeItem.classList.add("active");
+  } else {
+    console.warn(
+      `Elemento correspondente a '${pageId}' não encontrado no dropdown.`
+    );
   }
 
   const section = document.getElementById("pageTable");
@@ -67,22 +68,6 @@ const iconMap = {
   Celulares: "📱",
   Materiais: "🔧",
   Cabos: "🔌",
-  Monitores: "🖥️",
-  Impressoras: "🖨️",
-  Teclados: "⌨️",
-  Mouses: "🖱️",
-  Fones: "🎧",
-  Roteadores: "📶",
-  Software: "💿",
-  Livros: "📚",
-  Escritório: "🏢",
-  Jogos: "🎮",
-  Eletrônicos: "🔋",
-  Tablets: "📲",
-  Câmeras: "📷",
-  Smartwatches: "⌚",
-  Acessórios: "📎",
-  Armazenamento: "💾",
 };
 
 function renderCategories(categories) {
@@ -91,7 +76,7 @@ function renderCategories(categories) {
 
   categories.forEach((category) => {
     const icon = iconMap[category.categoria] || "❓";
-    const card = document.createElement("li");
+    const card = document.createElement("div");
     card.classList.add("card");
     card.innerHTML = `
       <div class="icon">${icon}</div>
@@ -144,7 +129,6 @@ async function fetchCategories() {
 function renderCategoryData(items) {
   const tableHead = document.querySelector(".components-table thead");
   const tableBody = document.querySelector(".components-table tbody");
-
   tableHead.innerHTML = "";
   tableBody.innerHTML = "";
 
@@ -152,8 +136,8 @@ function renderCategoryData(items) {
   headerRow.innerHTML = `
       <th>Codigo</th>
       <th>Nome</th>
-      <th>Preco</th>
       <th>Quantidade</th>
+      <th>Preco</th>
       <th>Data de Entrada</th>
       <th>Data de Saida</th>
       <th>Tipo de Movimentacao</th>
@@ -163,16 +147,24 @@ function renderCategoryData(items) {
   `;
   tableHead.appendChild(headerRow);
 
-  if (items && items.length > 0) {
+  if (items.length > 0) {
     items.forEach((item) => {
+      const formatDate = (dateString) => {
+        if (!dateString) return "-";
+        const date = new Date(dateString);
+        const day = String(date.getDate() + 1).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+      };
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${item.codigo}</td>
         <td>${item.nome}</td>
         <td>R$ ${item.preco}</td>
         <td>${item.estoque} (Un.)</td>
-        <td>${formatDate(item.dataEntrada)}</td>
-        <td>${formatDate(item.dataSaida)}</td>
+        <td>${formatDate(item.dataEntrada) || "-"}</td>
+        <td>${formatDate(item.dataSaida) || "-"}</td>
         <td>${item.tipoMovimentacao || "-"}</td>
         <td>${item.usuario || "-"}</td>
         <td><button class="edit-btn" onclick="openEditModalInContainer(${
@@ -181,12 +173,15 @@ function renderCategoryData(items) {
         <td><button class="delete-btn" onclick="openDeleteModalInContainer(${
           item.codigo
         })">🗑️</button></td>
+
       `;
       tableBody.appendChild(row);
     });
   } else {
     const noDataRow = document.createElement("tr");
-    noDataRow.innerHTML = `<td colspan="10" style="text-align: center;">Nenhum item disponível nesta categoria.</td>`;
+    noDataRow.innerHTML = `
+      <td colspan="10" style="text-align: center;">Nenhum item disponível nesta categoria.</td>
+    `;
     tableBody.appendChild(noDataRow);
   }
 }
@@ -247,12 +242,10 @@ function openCreateModalInContainer() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(productData),
           });
-
-          const result = await response.json();
-
-          result.success
-            ? closeModalInContainer() && showToast(result.message)
-            : showToast(result.message);
+          response.ok
+            ? closeModalInContainer() &&
+              showToast("Produto adicionado com sucesso!")
+            : showToast("Erro ao adicionar produto.");
           fetchCategoryData(categoryName);
         } catch (error) {
           console.error("Erro:", error);
@@ -266,8 +259,10 @@ async function openEditModalInContainer(productId) {
   const modalContainer = document.getElementById("modalContainer");
 
   try {
+    // Fetch product details using the productId
     const response = await fetch(`http://localhost:3000/products/${productId}`);
     const product = await response.json();
+
     const categoryName = getPageIdFromUrl();
 
     if (modalContainer && product) {
@@ -281,20 +276,20 @@ async function openEditModalInContainer(productId) {
               <input type="text" id="editNome" name="nome" value="${
                 product.Nome
               }" required />
-              
+
               <label for="editCategoria">Categoria:</label>
               <input type="text" id="editCategoria" name="categoria" value="${categoryName}" readonly required disabled />
-              
+
               <label for="editPreco">Preço (unidade):</label>
               <input type="number" id="editPreco" name="preco" step="0.01" value="${
                 product.Preco
               }" required />
-              
+
               <label for="editQuantidade">Quantidade:</label>
               <input type="number" id="editQuantidade" name="quantidade" value="${
                 product.Quantidade
               }" required />
-              
+
               <label for="editTipoMovimentacao">Tipo de Movimentação:</label>
               <select id="editTipoMovimentacao" name="tipoMovimentacao" required>
                 <option value="Entrada" ${
@@ -304,7 +299,7 @@ async function openEditModalInContainer(productId) {
                   product.tipoMovimentacao === "Saída" ? "selected" : ""
                 }>Saída</option>
               </select>
-              
+
               <div class="modal-buttons">
                 <button type="button" onclick="closeModalInContainer()">Cancelar</button>
                 <button type="submit">Salvar</button>
@@ -318,7 +313,6 @@ async function openEditModalInContainer(productId) {
         .getElementById("editProductForm")
         .addEventListener("submit", async function (event) {
           event.preventDefault();
-
           const updatedProductData = {
             nome: document.getElementById("editNome").value,
             preco: parseFloat(document.getElementById("editPreco").value),
@@ -327,19 +321,11 @@ async function openEditModalInContainer(productId) {
             ),
             tipoMovimentacao: document.getElementById("editTipoMovimentacao")
               .value,
-            categoria: categoryName,
-            usuarioId: JSON.parse(sessionStorage.getItem("user")).Id_usuario,
+            categoria: product.categoria,
+            usuarioId: product.usuarioId,
+            dataEntrada: product.dataEntrada,
           };
 
-          if (updatedProductData.tipoMovimentacao === "Entrada") {
-            updatedProductData.dataEntrada = new Date()
-              .toISOString()
-              .split("T")[0];
-          } else if (updatedProductData.tipoMovimentacao === "Saída") {
-            updatedProductData.dataSaida = new Date()
-              .toISOString()
-              .split("T")[0];
-          }
           try {
             const response = await fetch(
               `http://localhost:3000/products/${productId}`,
@@ -349,15 +335,12 @@ async function openEditModalInContainer(productId) {
                 body: JSON.stringify(updatedProductData),
               }
             );
-
-            const result = await response.json();
-
-            if (result.success) {
+            if (response.ok) {
               closeModalInContainer();
-              showToast(result.message);
+              showToast("Produto atualizado com sucesso!");
               fetchCategoryData(categoryName);
             } else {
-              showToast(result.message);
+              throw new Error("Erro ao atualizar produto.");
             }
           } catch (error) {
             console.error("Erro:", error);
@@ -371,15 +354,6 @@ async function openEditModalInContainer(productId) {
     console.error("Erro ao buscar detalhes do produto:", error);
     showToast("Erro ao abrir o modal de edição.");
   }
-}
-
-function formatDate(dateString) {
-  if (!dateString) return "-";
-  const date = new Date(dateString);
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-  return `${day}/${month}/${year}`;
 }
 
 async function openDeleteModalInContainer(productId) {
@@ -411,15 +385,12 @@ async function confirmDeleteProduct(productId) {
         method: "DELETE",
       }
     );
-
-    const result = await response.json();
-
-    if (result.success) {
+    if (response.ok) {
       closeModalInContainer();
-      showToast(result.message);
-      fetchCategoryData(categoryName);
+      showToast("Produto deletado com sucesso!");
+      fetchCategoryData(categoryName); // Atualiza a lista de categorias após a exclusão
     } else {
-      showToast(result.message);
+      throw new Error("Erro ao deletar produto.");
     }
   } catch (error) {
     console.error("Erro:", error);
@@ -447,7 +418,7 @@ document
   .querySelector(".new-btn")
   .addEventListener("click", openCreateModalInContainer);
 
-fetchCategories();
+fetchCategories(); // Carrega as categorias e exibe o menu
 
 function initializeDashboardPage() {
   const user = sessionStorage.getItem("user");
@@ -457,7 +428,7 @@ function initializeDashboardPage() {
 }
 
 function redirectToLogin() {
-  window.location.href = "./Login/index.html";
+  window.location.href = "./Login/index.html"; // Caminho para a página de login
 }
 
 function logoutUser() {
@@ -474,6 +445,7 @@ function getUser() {
 
   if (user) {
     const divUserText = document.querySelector(".user-text");
+    console.log(divUserText);
     const p = divUserText.querySelector("p");
     const span = divUserText.querySelector("span");
 
@@ -492,6 +464,7 @@ function openCreateCategoryModal() {
   const modalContainer = document.getElementById("modalContainer");
 
   if (modalContainer) {
+    // Define o conteúdo do modal de criação de categoria
     modalContainer.innerHTML = `
       <div id="createCategoryModal" class="modal" style="display: flex;">
         <div class="modal-content">
@@ -510,6 +483,7 @@ function openCreateCategoryModal() {
       </div>
     `;
 
+    // Adiciona o evento de submissão ao formulário
     document
       .getElementById("createCategoryForm")
       .addEventListener("submit", async function (event) {
@@ -517,7 +491,8 @@ function openCreateCategoryModal() {
 
         const categoryName = document.getElementById("categoryName").value;
 
-        const categoryData = { nome: categoryName };
+        // Dados a serem enviados para o backend
+        const categoryData = { name: categoryName };
 
         try {
           const response = await fetch("http://localhost:3000/categories", {
@@ -528,179 +503,16 @@ function openCreateCategoryModal() {
             body: JSON.stringify(categoryData),
           });
 
-          const result = await response.json();
-
-          if (result.success) {
+          if (response.ok) {
             closeModalInContainer();
-            showToast(result.message);
-            fetchCategories();
+            showToast("Categoria criada com sucesso!");
+            fetchCategories(); // Atualiza a lista de categorias após a criação
           } else {
-            showToast(result.message);
+            throw new Error("Erro ao criar categoria.");
           }
         } catch (error) {
           console.error("Erro:", error);
           showToast("Ocorreu um erro ao criar a categoria. Tente novamente.");
-        }
-      });
-  }
-}
-
-function showProfileTab(tabId) {
-  const tabs = document.querySelectorAll(".profile-tab");
-  tabs.forEach((tab) => tab.classList.add("hidden"));
-
-  document.getElementById(tabId).classList.remove("hidden");
-
-  document.getElementById("tab-perfil").classList.remove("active");
-  document.getElementById("tab-seguranca").classList.remove("active");
-
-  if (tabId === "perfil-info") {
-    document.getElementById("tab-perfil").classList.add("active");
-  } else {
-    document.getElementById("tab-seguranca").classList.add("active");
-  }
-}
-
-function loadUserProfile() {
-  const user = JSON.parse(sessionStorage.getItem("user"));
-
-  if (user) {
-    document.getElementById("nome").value = user.Nome;
-    document.getElementById("email").value = user.Email;
-    document.getElementById("cargo").value = user.Cargo;
-  }
-}
-
-async function saveProfile() {
-  const user = JSON.parse(sessionStorage.getItem("user"));
-
-  if (!user) return;
-
-  const updatedUser = {
-    nome: document.getElementById("nome").value,
-    email: document.getElementById("email").value,
-    cargo: document.getElementById("cargo").value,
-  };
-
-  try {
-    const response = await fetch(
-      `http://localhost:3000/user/${user.Id_usuario}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedUser),
-      }
-    );
-
-    if (response.success) {
-      sessionStorage.setItem("user", JSON.stringify(updatedUser));
-      showToast(response.message);
-    } else {
-      showToast(response.message);
-    }
-  } catch (error) {
-    showToast("Erro de rede ao atualizar perfil.");
-  }
-}
-
-async function saveSecurity() {
-  const user = JSON.parse(sessionStorage.getItem("user"));
-
-  if (!user) return;
-
-  const newPassword = document.getElementById("new-password").value;
-  const confirmNewPassword = document.getElementById(
-    "confirm-new-password"
-  ).value;
-
-  if (newPassword !== confirmNewPassword) {
-    showToast("A nova senha e a confirmação não coincidem.");
-    return;
-  }
-
-  const updatedSecurity = {
-    nome: user.Nome,
-    email: user.Email,
-    cargo: user.Cargo,
-    senha: newPassword,
-  };
-
-  try {
-    const response = await fetch(
-      `http://localhost:3000/user/${user.Id_usuario}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedSecurity),
-      }
-    );
-
-    if (response.success) {
-      showToast("Senha atualizada com sucesso!");
-    } else {
-      showToast("Erro ao atualizar senha.");
-    }
-  } catch (error) {
-    showToast("Erro de rede ao atualizar senha.");
-  }
-}
-
-function openDeleteCategoryModal() {
-  const modalContainer = document.getElementById("modalContainer");
-
-  if (modalContainer) {
-    modalContainer.innerHTML = `
-      <div id="deleteCategoryModal" class="modal" style="display: flex;">
-        <div class="modal-content">
-          <span class="close" onclick="closeModalInContainer()">&times;</span>
-          <h2>Deletar Categoria</h2>
-          <p>Para deletar a categoria, por favor, digite o nome da categoria abaixo:</p>
-          <form id="deleteCategoryForm">
-            <label for="confirmCategoryName">Nome da Categoria:</label>
-            <input type="text" id="confirmCategoryName" name="confirmCategoryName" placeholder="Digite o nome da categoria" required />
-
-            <div class="modal-buttons">
-              <button type="button" onclick="closeModalInContainer()">Cancelar</button>
-              <button id="delete" type="submit">Deletar</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    `;
-
-    document
-      .getElementById("deleteCategoryForm")
-      .addEventListener("submit", async function (event) {
-        event.preventDefault();
-
-        const inputCategoryName = document
-          .getElementById("confirmCategoryName")
-          .value.trim();
-
-        try {
-          const response = await fetch(
-            `http://localhost:3000/categories/${inputCategoryName}`,
-            {
-              method: "DELETE",
-            }
-          );
-
-          const result = await response.json();
-
-          if (result.success) {
-            closeModalInContainer();
-            showToast(result.message);
-            fetchCategories();
-          } else {
-            showToast(result.message);
-          }
-        } catch (error) {
-          console.error("Erro:", error);
-          showToast("Ocorreu um erro ao deletar a categoria. Tente novamente.");
         }
       });
   }
@@ -711,31 +523,12 @@ window.closeModalInContainer = closeModalInContainer;
 window.openCreateCategoryModal = openCreateCategoryModal;
 window.openEditModalInContainer = openEditModalInContainer;
 window.openDeleteModalInContainer = openDeleteModalInContainer;
-window.showProfileTab = showProfileTab;
-window.saveProfile = saveProfile;
-window.saveSecurity = saveSecurity;
-window.openDeleteCategoryModal = openDeleteCategoryModal;
-window.confirmDeleteProduct = confirmDeleteProduct;
 
-// Função para exibir a página de login inicial - feito
-// Modais de edição e exclusão de produto - feito
-// Adicionar funcionalidade para listar e clicar em categorias do banco de dados - feito
-// Ajustar a sidebar para renderizar categorias do banco - feito
-// Renderizar o nome do usuário logado na tela - feito
-// Função para editar perfil e senha do usuário - feito
-// Arrumar o botao do register loading... - feito
-// Ajustar as cores da pagina de login e registro - feito
-// Add icone de usuario no perfil - feito
-// botao de excluir categoria; - feito
-// USAR AS MENSAGENS DO DB PARA AS RESPOSTAS - feito
-//AJUSTAR UPDATE PRUDUTO (ESTOQUE) API - feito
-//AJUSTAR DELETE PRUDUTO (ESTOQUE) API - feito
-
-// Logo na sidbar;
-// titulo da pagina com o nome do sistema;
-
-// O q esta sendo usado na api:
-// - post de categoria;
-// - crud de produto;
-// - post de estoque no post de produto;
-// - crud de usuario;
+// Função para exibir a página de login inicial
+// Função para editar perfil e senha do usuário
+// Modais de edição e exclusão de produto
+// Adicionar funcionalidade para listar e clicar em categorias do banco de dados
+// Ajustar a sidebar para renderizar categorias do banco
+// Renderizar o nome do usuário logado na tela
+// ver se tem um preventdefault do documento inteiro pra nao atualizar;
+// USAR AS MENSAGENS DO DB PARA AS RESPOSTAS
