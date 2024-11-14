@@ -16,6 +16,9 @@ body {
     display: flex;
     width: 100%;
 }
+#side{
+    width: 200px;
+}
 
 .sidebar {
     width: 250px;
@@ -42,6 +45,8 @@ nav a.nav-link:hover, .nav-link:hover, .nav-link.active {
     background-color: #0A6C32;
 }
 
+
+
 .logout {
     color: #FF4D4D;
     text-decoration: none;
@@ -59,6 +64,7 @@ nav a.nav-link:hover, .nav-link:hover, .nav-link.active {
     flex-grow: 1;
     padding: 30px;
     overflow-y: auto;
+    width: 100%;
 }
 
 header {
@@ -157,7 +163,6 @@ header h2 {
     font-size: 1.2em;
 }
 
-/* Dropdown Menu */
 .dropdown {
     margin-left: 15px;
     padding-left: 10px;
@@ -598,4 +603,17 @@ input::-webkit-inner-spin-button {
 
 .save-btn:hover {
     background-color: #0A6C32;
+}
+
+.img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 70px;
+    margin-bottom: 10px;
+}
+
+.img img {
+    width: 50%;
+    height: 100%;
 }
