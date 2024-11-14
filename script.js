@@ -716,26 +716,3 @@ window.saveProfile = saveProfile;
 window.saveSecurity = saveSecurity;
 window.openDeleteCategoryModal = openDeleteCategoryModal;
 window.confirmDeleteProduct = confirmDeleteProduct;
-
-// Função para exibir a página de login inicial - feito
-// Modais de edição e exclusão de produto - feito
-// Adicionar funcionalidade para listar e clicar em categorias do banco de dados - feito
-// Ajustar a sidebar para renderizar categorias do banco - feito
-// Renderizar o nome do usuário logado na tela - feito
-// Função para editar perfil e senha do usuário - feito
-// Arrumar o botao do register loading... - feito
-// Ajustar as cores da pagina de login e registro - feito
-// Add icone de usuario no perfil - feito
-// botao de excluir categoria; - feito
-// USAR AS MENSAGENS DO DB PARA AS RESPOSTAS - feito
-//AJUSTAR UPDATE PRUDUTO (ESTOQUE) API - feito
-//AJUSTAR DELETE PRUDUTO (ESTOQUE) API - feito
-
-// Logo na sidbar;
-// titulo da pagina com o nome do sistema;
-
-// O q esta sendo usado na api:
-// - post de categoria;
-// - crud de produto;
-// - post de estoque no post de produto;
-// - crud de usuario;
